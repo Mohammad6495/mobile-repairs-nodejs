@@ -3,7 +3,8 @@ import HttpError from "../../utils/app_error";
 import Category from "../models/category_collection";
 import { ICategory } from "../../utils/interfaces";
 import fs from 'fs';
-import path from 'path'
+import path from 'path';
+
 class CategoryRepository {
     async Created({ title, image }: ICategory) {
         const createdCategory = new Category({
@@ -33,7 +34,7 @@ class CategoryRepository {
         return editResult;
     }
     async GetAll() {
-        const allCategories = await Category.find({ isActive: true }).sort({ createdAt: -1 });
+        const allCategories = await Category.find({ isActive: true, isAvailable: true }).sort({ createdAt: -1 });
         return allCategories
     }
     async Get({ pageSize, currentPage, search }: { pageSize: string, currentPage: string, search: string }) {
@@ -82,11 +83,19 @@ class CategoryRepository {
             throw new HttpError(["فرمت شناسه نادرست است!"], 422);
         }
         const deletedCategory = await Category.findOneAndDelete({ _id: id });
-
         if (!deletedCategory) {
             throw new HttpError(["دسته بندی مورد نظر یافت نشد!"], 422);
         }
+        const previousImagePath = deletedCategory.image as string;
 
+        if (previousImagePath) {
+            const fullPath = path.join(previousImagePath);
+            if (fs.existsSync(fullPath)) {
+                fs.unlinkSync(fullPath);
+            } else {
+                throw new HttpError(["ادرس عکس مورد نظر یافت نشد!"], 422);
+            }
+        }
         return deletedCategory;
     }
 }
