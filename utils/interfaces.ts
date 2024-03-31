@@ -45,3 +45,22 @@ export interface IHeadLine {
   course?:Types.ObjectId
 }
 
+export interface IHeadLine {
+  id?: Types.ObjectId,
+  title: string
+  description?: string,
+  isActive?: boolean,
+  isAvailable?: boolean,
+  eductionals?: Types.ObjectId[],
+  course?:Types.ObjectId
+}
+export interface IEductionalVideo {
+  id?: Types.ObjectId,
+  title: string
+  isActive?: boolean,
+  isAvailable?: boolean,
+  isPayActive?:boolean,
+  videoTime?: Date,
+  headLine?:Types.ObjectId
+}
+

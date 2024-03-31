@@ -23,8 +23,8 @@ class HeadlineServices {
     const editHeadline = await this.repository.Edit({ id, title, description });
     return FormateData({ data: editHeadline.toObject({ getters: true }) });
   }
-  async GetHeadline(currentPage: string, pageSize: string, search: string) {
-    const getHeadline = await this.repository.Get({ currentPage, pageSize, search });
+  async GetHeadline(currentPage: string, pageSize: string, search: string, courseId: Types.ObjectId) {
+    const getHeadline = await this.repository.Get({ currentPage, pageSize, search,courseId });
     return FormateData({ data: getHeadline });
   }
   async GetHeadlineClient() {

@@ -2,6 +2,7 @@ import { NextFunction, Response, Request } from "express";
 import HeadlineServices from "../../services/headlines_Services";
 import { myValidationResult } from "../../utils/utility";
 import HttpError from "../../utils/app_error";
+import { Types } from "mongoose";
 
 const services = new HeadlineServices();
 
@@ -48,9 +49,9 @@ export const GetAllAction = async (
   next: NextFunction
 ) => {
   try {
-    const { pageSize, currentPage, search } = req.query;
+    const { pageSize, currentPage, search, courseId } = req.query;
     console.log(pageSize)
-    const data = await services.GetHeadline(currentPage as string, pageSize as string, search as string);
+    const data = await services.GetHeadline(currentPage as string, pageSize as string, search as string, courseId as any);
     res.json({ ...data });
   } catch (err) {
     next(err);

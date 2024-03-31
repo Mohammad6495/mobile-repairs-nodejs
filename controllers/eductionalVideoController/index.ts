@@ -1,9 +1,10 @@
 import { NextFunction, Response, Request } from "express";
-import CategoryServices from "../../services/category_Services";
+import EductionalVideoServices from "../../services/eductionalVideo_Services";
 import { myValidationResult } from "../../utils/utility";
 import HttpError from "../../utils/app_error";
+import { Types } from "mongoose";
 
-const services = new CategoryServices();
+const services = new EductionalVideoServices();
 
 export const CreatedAction = async (
   req: Request,
@@ -11,12 +12,12 @@ export const CreatedAction = async (
   next: NextFunction
 ) => {
   try {
-    const { title, image = req?.file?.path || undefined } = req.body;
+    const { title, headLine, isPayActive, videoTime} = req.body;
     const errors = myValidationResult(req).array();
     if (errors.length !== 0) {
       throw new HttpError(errors, 401, null);
     }
-    const data = await services.CreatedCategory(title, image);
+    const data = await services.CreatedEductionalVideo({title, headLine, isPayActive, videoTime });
     res.json({ ...data });
   } catch (err) {
     next(err);
@@ -29,12 +30,13 @@ export const EditAction = async (
   next: NextFunction
 ) => {
   try {
-    const { title, id, image = req?.file?.path } = req.body;
+    const { id, title, headLine, isPayActive, videoTime } = req.body;
+    console.log(title)
     const errors = myValidationResult(req).array();
     if (errors.length !== 0) {
       throw new HttpError(errors, 401, null);
     }
-    const data = await services.EditCategory(title, id, image);
+    const data = await services.EditEductionalVideo({ id, title, headLine, isPayActive, videoTime });
     res.json({ ...data });
   } catch (err) {
     next(err);
@@ -47,8 +49,9 @@ export const GetAllAction = async (
   next: NextFunction
 ) => {
   try {
-    const { pageSize, currentPage, search } = req.query;
-    const data = await services.GetCategory(currentPage as string, pageSize as string, search as string);
+    const { pageSize, currentPage, search, headlineId } = req.query;
+    console.log(pageSize)
+    const data = await services.GetEductionalVideo(currentPage as string, pageSize as string, search as string, headlineId as any);
     res.json({ ...data });
   } catch (err) {
     next(err);
@@ -60,7 +63,7 @@ export const GetAllClientAction = async (
   next: NextFunction
 ) => {
   try {
-    const data = await services.GetCategoryClient();
+    const data = await services.GetEductionalVideoClient();
     res.json({ ...data });
   } catch (err) {
     next(err);
@@ -81,14 +84,14 @@ export const ChangeIsAvailableAction = async (
   }
 };
 
-export const DeleteCategoryAction = async (
+export const DeleteEductionalVideoAction = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { id } = req.query;
-    const data = await services.DeleteCategory(id as any);
+    const data = await services.DeleteEductionalVideo(id as any);
     res.json({ ...data });
   } catch (err) {
     next(err);

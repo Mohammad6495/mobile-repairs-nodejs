@@ -11,7 +11,7 @@ class CourseRepository {
             title: input.title,
             image: input.image,
             description: input.description,
-            viewCount: input.viewCount,
+            viewCount: input.viewCount || 1,
             price: input.price,
             courseLevel: input.courseLevel,
             courseStatus: input.courseStatus,
@@ -78,6 +78,7 @@ class CourseRepository {
         const course = await Course.find({ ...searchCondition, isActive: true })
             .skip(skip)
             .limit(limit)
+            .populate('category')
             .sort({ createdAt: -1 })
         const totalCourse = await Course.find({ isActive: true }).countDocuments(
             searchCondition
@@ -116,6 +117,17 @@ class CourseRepository {
         deletedCourse.isActive = false;
         await deletedCourse.save()
         return deletedCourse;
+    }
+    async Detail({ id }: { id: Types.ObjectId }) {
+        const validObjectId = Types.ObjectId.isValid(id);
+        if (!validObjectId) {
+            throw new HttpError(["فرمت شناسه نادرست است!"], 422);
+        }
+        const findCourse = await Course.findById(id).populate('category');
+        if (!findCourse) {
+            throw new HttpError(["دوره مورد نظر یافت نشد!"], 422);
+        }
+        return findCourse.toObject({ getters: true});
     }
 }
 

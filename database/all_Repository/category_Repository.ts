@@ -13,24 +13,24 @@ class CategoryRepository {
         })
         const categoryResult = await createdCategory.save();
         return categoryResult
-    }
+    }                      
     async Edit({ id, title, image }: ICategory) {
         const findCategory = await Category.findById(id);
         if (!findCategory) {
             throw new HttpError(["دسته بندی مورد نظر یافت نشد!"], 422);
         }
+        
         const previousImagePath = findCategory.image as string;
         findCategory.title = title as string;
         findCategory.image = image ? image : findCategory.image as string
-        const editResult = await findCategory.save();
         if (image && previousImagePath) {
             const fullPath = path.join(previousImagePath);
             if (fs.existsSync(fullPath)) {
                 fs.unlinkSync(fullPath);
-            } else {
-                throw new HttpError(["ادرس عکس مورد نظر یافت نشد!"], 422);
-            }
+            } 
         }
+
+        const editResult = await findCategory.save();                       
         return editResult;
     }
     async GetAll() {
@@ -77,6 +77,7 @@ class CategoryRepository {
         const result = await findCategory.save();
         return result;
     }
+
     async Delete({ id }: { id: Types.ObjectId }) {
         const validObjectId = Types.ObjectId.isValid(id);
         if (!validObjectId) {
@@ -92,9 +93,7 @@ class CategoryRepository {
             const fullPath = path.join(previousImagePath);
             if (fs.existsSync(fullPath)) {
                 fs.unlinkSync(fullPath);
-            } else {
-                throw new HttpError(["ادرس عکس مورد نظر یافت نشد!"], 422);
-            }
+            } 
         }
         return deletedCategory;
     }

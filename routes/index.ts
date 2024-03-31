@@ -1,8 +1,9 @@
 import express from 'express';
 import accountRouter from './account'
 import categoryRouter from './category'
-import courseRouter from './course'
-import headlineRouter from './headline'
+import courseRouter from './course';
+import headlineRouter from './headline';
+import eductionalVideoRouter from './eductionalVideo';
 
 const appRouter = express();
 // login-panel
@@ -171,6 +172,7 @@ appRouter.use('/account', accountRouter)
 *       '200':
 *         description: Successful response
 */
+
 appRouter.use('/category', categoryRouter)
 // createdCourse
 /**
@@ -345,9 +347,25 @@ appRouter.use('/category', categoryRouter)
 *       '200':
 *         description: Successful response
 */
+// detailCourse
+/**
+* @swagger
+* /course/detail:
+*   get:
+*     tags:
+*       - Course
+*     parameters:
+*       - in: query
+*         name: id
+*         schema:
+*           type: string
+*     responses:
+*       '200':
+*         description: Successful response
+*/
 appRouter.use('/course', courseRouter)
 
-// createdCategory
+// createdHeadline
 /**
 * @swagger
 * /headline/create:
@@ -419,6 +437,10 @@ appRouter.use('/course', courseRouter)
 *         name: currentPage
 *         schema:
 *           type: string
+*       - in: query
+*         name: courseId
+*         schema:
+*           type: string
 *     responses:
 *       '200':
 *         description: Successful response
@@ -471,5 +493,138 @@ appRouter.use('/course', courseRouter)
 *         description: Successful response
 */
 appRouter.use('/headline', headlineRouter)
+
+// createdEductionalVideo
+/**
+* @swagger
+* /eductionalVideo/create:
+*   post:
+*     tags:
+*       - EductionalVideo
+*     security:
+*       - BearerAuth: []
+*     requestBody:
+*       content:
+*         application/json:
+*           schema:
+*             type: object
+*             properties:
+*               title:
+*                 type: string
+*               headLine:
+*                 type: string
+*               isPayActive:
+*                 type: string
+*               videoTime:
+*                 type: string
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+// editeductionalVideo
+/**
+* @swagger
+* /eductionalVideo/edit:
+*   post:
+*     tags:
+*       - EductionalVideo
+*     security:
+*       - BearerAuth: []
+*     requestBody:
+*       content:
+*         application/json:
+*           schema:
+*             type: object
+*             properties:
+*               title:
+*                 type: string
+*               isPayActive:
+*                 type: string
+*               videoTime:
+*                 type: string
+*               id:
+*                 type: string
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+// getAll
+/**
+* @swagger
+* /eductionalVideo/getAll:
+*   get:
+*     tags:
+*       - EductionalVideo
+*     security:
+*       - BearerAuth: []
+*     parameters:
+*       - in: query
+*         name: search
+*         schema:
+*           type: string
+*       - in: query
+*         name: pageSize
+*         schema:
+*           type: string
+*       - in: query
+*         name: currentPage
+*         schema:
+*           type: string
+*       - in: query
+*         name: headlineId
+*         schema:
+*           type: string
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+// getAllClient
+/**
+* @swagger
+* /eductionalVideo/getAllClient:
+*   get:
+*     tags:
+*       - EductionalVideo
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+// changeavailable
+/**
+* @swagger
+* /eductionalVideo/changeavailable:
+*   post:
+*     tags:
+*       - EductionalVideo
+*     security:
+*       - BearerAuth: []
+*     parameters:
+*       - in: query
+*         name: id
+*         schema:
+*           type: string
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+// removeeductionalVideo
+/**
+* @swagger
+* /eductionalVideo/remove:
+*   delete:
+*     tags:
+*       - EductionalVideo
+*     security:
+*       - BearerAuth: []
+*     parameters:
+*       - in: query
+*         name: id
+*         schema:
+*           type: string
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+appRouter.use('/eductionalVideo', eductionalVideoRouter)
 
 export default appRouter;

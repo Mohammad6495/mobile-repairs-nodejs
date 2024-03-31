@@ -1,39 +1,36 @@
 import express, { NextFunction, Request, Response } from "express";
-import CourseValidation from "../../validations/courseValidation";
+import EductionalVideoValidation from "../../validations/eductionalVideoValidation";
 import {
     ChangeIsAvailableAction,
     CreatedAction,
-    DeleteCourseAction,
+    DeleteEductionalVideoAction,
     EditAction,
     GetAllAction,
-    GetAllClientAction,
-    DetailCourseAction
-} from '../../controllers/courseController'
+    GetAllClientAction
+} from '../../controllers/eductionalVideoController'
 import checkAuhtUser from "../../middlewares/checkAuthUser";
-import fileUpload from "../../middlewares/fileUpload";
+
 const router = express.Router();
-const validation = new CourseValidation();
+const validation = new EductionalVideoValidation();
 
 router.post("/create",
     (req: Request, res: Response, next: NextFunction) => checkAuhtUser(req, res, next, 'Management'),
-    fileUpload.single('image'),
-    validation.CourseValidation(),
+    validation.eductionalVideoValidation(),
     CreatedAction);
 router.post("/edit",
     (req: Request, res: Response, next: NextFunction) => checkAuhtUser(req, res, next, 'Management'),
-    fileUpload.single('image'),
-    validation.CourseValidation(),
+    validation.eductionalVideoValidation(),
     EditAction);
 router.get('/getAll',
     (req, res, next) => checkAuhtUser(req, res, next, 'Management'),
     GetAllAction)
 router.get('/getAllClient', GetAllClientAction)
+
 router.post('/changeavailable',
     (req, res, next) => checkAuhtUser(req, res, next, 'Management'),
     ChangeIsAvailableAction)
 router.delete('/remove',
     (req, res, next) => checkAuhtUser(req, res, next, 'Management'),
-    DeleteCourseAction)
-router.get('/detail',DetailCourseAction)
+    DeleteEductionalVideoAction)
 
 export default router;

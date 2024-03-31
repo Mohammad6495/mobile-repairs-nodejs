@@ -35,7 +35,11 @@ class HeadLinesRepository {
         const allCategories = await HeadLines.find({ isActive: true, isAvailable: true }).sort({ createdAt: -1 });
         return allCategories
     }
-    async Get({ pageSize, currentPage, search }: { pageSize: string, currentPage: string, search: string }) {
+    async Get({ pageSize, currentPage, search, courseId }: { pageSize: string, currentPage: string, search: string, courseId: Types.ObjectId }) {
+        const validObjectId = Types.ObjectId.isValid(courseId);
+        if (!validObjectId) {
+            throw new HttpError(["فرمت شناسه نادرست است!"], 422);
+        }
         const limit = parseInt(pageSize) || 10;
         const skip = (parseInt(currentPage) - 1) * limit || 0;
 
@@ -46,11 +50,11 @@ class HeadLinesRepository {
                 ]
             }
             : {};
-        const headLines = await HeadLines.find({ ...searchCondition, isActive: true })
+        const headLines = await HeadLines.find({ ...searchCondition, isActive: true, course: courseId })
             .skip(skip)
             .limit(limit)
             .sort({ createdAt: -1 })
-        const totalHeadLines = await HeadLines.find({ isActive: true }).countDocuments(
+        const totalHeadLines = await HeadLines.find({ isActive: true,  course: courseId }).countDocuments(
             searchCondition
         );
         return {

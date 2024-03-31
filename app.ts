@@ -43,10 +43,10 @@ const serverStart = async () => {
 
     app.use(express.json({ limit: "1mb" }));
     app.use(express.urlencoded({ extended: true, limit: "1mb" }));
-    app.use("/assets/uploads", express.static(path.join(__dirname, "assets", "upload")));
+    app.use("/assets/uploads", express.static(path.join(__dirname, "assets", "uploads")));
 
     app.use((req, res, next) => {
-        const allowedOrigins = ["http://localhost:5173"];
+        const allowedOrigins = ["http://localhost:3011"];
         const origin = req.headers.origin;
 
         if (allowedOrigins.includes(origin as any)) {
