@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const EductionalVideosSchema = new Schema(
   {
     title: { type: String, required: false },
-    videoTime: { type: Date, require: false },
+    videoTime: { type: Number, require: false },
     isActive: { type: Boolean, require: false, default: true },
     isAvailable: { type: Boolean, require: false, default: true },
     isPayActive: { type: Boolean, require: true, default: false },

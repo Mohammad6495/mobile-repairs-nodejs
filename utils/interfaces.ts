@@ -1,6 +1,7 @@
 import { Types } from "mongoose"
 
 export interface IUser {
+  id?: Types.ObjectId,
   userName?: string;
   password?: string;
   role?: IRole[]
@@ -42,7 +43,7 @@ export interface IHeadLine {
   isActive?: boolean,
   isAvailable?: boolean,
   eductionals?: Types.ObjectId[],
-  course?:Types.ObjectId
+  course?: Types.ObjectId
 }
 
 export interface IHeadLine {
@@ -52,15 +53,26 @@ export interface IHeadLine {
   isActive?: boolean,
   isAvailable?: boolean,
   eductionals?: Types.ObjectId[],
-  course?:Types.ObjectId
+  course?: Types.ObjectId
 }
 export interface IEductionalVideo {
   id?: Types.ObjectId,
   title: string
   isActive?: boolean,
   isAvailable?: boolean,
-  isPayActive?:boolean,
-  videoTime?: Date,
-  headLine?:Types.ObjectId
+  isPayActive?: boolean,
+  videoTime: number,
+  headLine?: Types.ObjectId
 }
 
+export interface IOrder {
+  id?: string,
+  totalPrice: number,
+  isActive?: boolean,
+  isAvailable?: boolean,
+  isPay?: boolean,
+  user?: Types.ObjectId,
+  licenceKey?: string,
+  resnumber:string
+  course: Types.ObjectId[]
+}

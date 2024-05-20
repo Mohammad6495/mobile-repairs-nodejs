@@ -87,6 +87,14 @@ class EductionalVideosRepository {
             throw new HttpError(["فرمت شناسه نادرست است!"], 422);
         }
         const deletedEductionalVideos = await EductionalVideos.findOneAndDelete({ _id: id });
+        const findHeadline = await HeadLine.findById(deletedEductionalVideos?.headLine);
+        if (findHeadline) {
+            const indexToRemove = findHeadline.eductionals.indexOf(id);
+            if (indexToRemove !== -1) {
+                findHeadline.eductionals.splice(indexToRemove, 1);
+            }
+        }
+        await findHeadline?.save()
         if (!deletedEductionalVideos) {
             throw new HttpError(["ویدیو مورد نظر یافت نشد!"], 422);
         }

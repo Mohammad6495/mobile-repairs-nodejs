@@ -4,6 +4,8 @@ import categoryRouter from './category'
 import courseRouter from './course';
 import headlineRouter from './headline';
 import eductionalVideoRouter from './eductionalVideo';
+import cartRouter from './cart';
+import orderRouter from './order';
 
 const appRouter = express();
 // login-panel
@@ -626,5 +628,93 @@ appRouter.use('/headline', headlineRouter)
 *         description: Successful response
 */
 appRouter.use('/eductionalVideo', eductionalVideoRouter)
+
+
+// submitfactor
+/**
+* @swagger
+* /cart/submitfactor:
+*   post:
+*     tags:
+*       - Cart
+*     security:
+*       - BearerAuth: []
+*     requestBody:
+*       content:
+*         application/json:
+*           schema:
+*             type: object
+*             properties:
+*               items:
+*                 type: array
+*                 items:
+*                   type: object
+*                   properties:
+*                     productId:
+*                       type: string
+*                     productCount:
+*                       type: integer
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+// getfactor
+/**
+* @swagger
+* /cart/getfactor:
+*   post:
+*     tags:
+*       - Cart
+*     requestBody:
+*       content:
+*         application/json:
+*           schema:
+*             type: object
+*             properties:
+*               items:
+*                 type: array
+*                 items:
+*                   type: object
+*                   properties:
+*                     productId:
+*                       type: string
+*                     productCount:
+*                       type: integer
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+appRouter.use('/cart', cartRouter)
+
+// submitfactor
+/**
+* @swagger
+* /order/getAll:
+*   get:
+*     tags:
+*       - Order
+*     security:
+*       - BearerAuth: []
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+// getfactor
+/**
+* @swagger
+* /order/detail:
+*   get:
+*     tags:
+*       - Order
+*     parameters:
+*       - in: query
+*         name: id
+*         schema:
+*           type: string
+*     responses:
+*       '200':
+*         description: Successful response
+*/
+appRouter.use('/order', orderRouter)
 
 export default appRouter;

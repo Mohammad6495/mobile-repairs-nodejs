@@ -20,6 +20,7 @@ const CourseSchema = new Schema(
             required: true,
             default: 1
         },
+        count: { type: Number, required: false, default: 1},
         teacher: { type: String, required: true },
         isActive: { type: Boolean, require: false, default: true },
         isAvailable: { type: Boolean, require: false, default: true },

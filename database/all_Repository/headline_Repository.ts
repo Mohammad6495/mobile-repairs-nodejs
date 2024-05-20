@@ -85,6 +85,14 @@ class HeadLinesRepository {
             throw new HttpError(["فرمت شناسه نادرست است!"], 422);
         }
         const deletedHeadLines = await HeadLines.findOneAndDelete({ _id: id });
+        const findCourse = await Course.findById(deletedHeadLines?.course);
+        if (findCourse) {
+            const indexToRemove = findCourse.headLines.indexOf(id);
+            if (indexToRemove !== -1) {
+                findCourse.headLines.splice(indexToRemove, 1);
+            }
+        }
+        await findCourse?.save()
         if (!deletedHeadLines) {
             throw new HttpError(["دسته بندی مورد نظر یافت نشد!"], 422);
         }

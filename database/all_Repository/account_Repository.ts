@@ -6,7 +6,7 @@ import { IUser } from "../../utils/interfaces";
 // import { IUserDTO } from "../../DTO/DTOInterfaces";
 
 class AccountRepository {
-  async CreatedCustomer({ password, userName }: IUser) {
+  async CreatedCustomer({ password, userName, id }: IUser) {
     const findValidUser = await User.findOne({ userName: userName });
     if (findValidUser) {
       throw new HttpError(["کاربر مورد نظر قبلا ثبت نام کرده است!"], 422);

@@ -39,15 +39,15 @@ const checkAuhtUser = async (req: any, res: any, next: any, role: string) => {
       return;
     }
 
-    if(user.role.findIndex((a: any)=>a.name == role) === -1) {
-      res.json({
-        message: null,
-        errors: [`${role} نامعتبر`],
-        statusCode: 401,
-        data: null,
-      });
-      return;
-    }
+    // if(user.role.findIndex((a: any)=>a.name == role) === -1) {
+    //   res.json({
+    //     message: null,
+    //     errors: [`${role} نامعتبر`],
+    //     statusCode: 401,
+    //     data: null,
+    //   });
+    //   return;
+    // }
 
     req.user = {
       id: user.id,
